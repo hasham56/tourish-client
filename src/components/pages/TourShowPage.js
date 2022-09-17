@@ -102,7 +102,7 @@ class TourShowPage extends Component {
       client_comments: `REQUESTING TOUR PACKAGE\nTitle: ${title}\nSummary: ${summary}`,
       adults: 1,
       children: 0,
-      budget: "affordable"
+      budget: "affordable",
     });
     setQuoteDetailsDialogOpen(true);
   };

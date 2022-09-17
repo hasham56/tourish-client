@@ -17,6 +17,8 @@ import DashboardPage from "./pages/admin/DashboardPage";
 import CustomSnackbar from "./modules/CustomSnackbar";
 import Footer from "./modules/Footer";
 import LoginPage from "./pages/LoginPage";
+import TourPanel from './pages/TourPanel';
+import Payment from './pages/Payment';
 import "./../css/Body.css";
 
 class App extends Component {
@@ -34,6 +36,8 @@ class App extends Component {
           <Route exact path="/about" component={AboutUsPage} />
           <Route exact path="/contact" component={ContactUsPage} />
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/tourPanel" component={TourPanel} />
+          <Route exact path="/payment" component={Payment} />
           <PrivateRoute
             exact
             path="/admin/dashboard"

@@ -52,8 +52,9 @@ class LoginForm extends Component {
 
     LocalApi.post("/auth/login", { email, password })
       .then(response => {
+        const userType = response.data.userType
         this.props.setAuthToken(response.data.token);
-        this.props.history.push("/admin/dashboard");
+        userType === "admin" ? this.props.history.push("/admin/dashboard") : this.props.history.push("/tourPanel");
       })
       .catch(err => {
         let message = "Server Error. Please try again later";

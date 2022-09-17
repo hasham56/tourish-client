@@ -15,7 +15,7 @@ import validate, { validateImage } from "./validation/tour_form_validation";
 import { createOrUpdateTour, getTour, setTour } from "./../../actions";
 
 class TourForm extends Component {
-  onFormSubmit = formValues => {
+  onFormSubmit = async formValues => {
     const { createOrUpdateTour, tour_id, history } = this.props;
     if (formValues.image) {
       formValues.image = formValues.image[0];
@@ -24,8 +24,8 @@ class TourForm extends Component {
     for (let key in formValues) {
       formData.append(key, formValues[key]);
     }
-    createOrUpdateTour(tour_id, formData);
-    history.push(`/tours/${tour_id}`);
+    await createOrUpdateTour(tour_id, formData);
+    history.push(`/tours`);
   };
 
   componentDidMount() {

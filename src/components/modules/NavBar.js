@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import LocalPhone from "@material-ui/icons/LocalPhone";
 import { setMenuDrawerOpen, setAuthToken } from "./../../actions";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   logo: {
@@ -49,10 +50,11 @@ const styles = theme => ({
 class NavBar extends Component {
   logout = () => {
     this.props.setAuthToken(null);
+    this.props.history.push("/")
   };
 
   render() {
-    const { classes, setMenuDrawerOpen, token } = this.props;
+    const { classes, setMenuDrawerOpen, token, userType } = this.props;
     return (
       <AppBar position="sticky">
         <Toolbar>
@@ -127,14 +129,17 @@ class NavBar extends Component {
 
               {token ? (
                 <>
-                  <Button
-                    id="dashboard-nav-link"
-                    className={classes.button}
-                    component={Link}
-                    to="/admin/dashboard"
-                  >
-                    Dashboard
-                  </Button>
+                  {
+                    userType === 'admin' ? 
+                    <Button
+                      id="dashboard-nav-link"
+                      className={classes.button}
+                      component={Link}
+                      to="/admin/dashboard"
+                    >
+                      Dashboard
+                    </Button> : ''
+                  }
 
                   <Button
                     id="logout-nav-link"
@@ -145,14 +150,16 @@ class NavBar extends Component {
                   </Button>
                 </>
               ) : (
-                <Button
-                  id="login-nav-link"
-                  className={classes.button}
-                  component={Link}
-                  to="/login"
-                >
-                  Login
-                </Button>
+                <>
+                  <Button
+                    id="login-nav-link"
+                    className={classes.button}
+                    component={Link}
+                    to="/login"
+                  >
+                    Login
+                  </Button>
+              </>
               )}
             </div>
           </Toolbar>
@@ -168,11 +175,12 @@ NavBar.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    token: state.auth.token
+    token: state.auth.token,
+    userType: state.auth.userType
   };
 };
 
 export default connect(
   mapStateToProps,
   { setMenuDrawerOpen, setAuthToken }
-)(withStyles(styles)(NavBar));
+)(withStyles(styles)(withRouter(NavBar)));

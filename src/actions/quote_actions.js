@@ -7,45 +7,51 @@ import {
   QUOTE_DETAILS_DIALOG_OPEN,
 } from "./types";
 
-export const sendQuoteRequest = (quoteType, { client_comments, ...user }) => {
+export const sendQuoteRequest = (quoteType, { client_comments, ...user }, destination=null) => {
   let formName = "";
   switch (quoteType) {
-    case "Flight":
-      formName = "FlightForm";
-      break;
     case "Hotel":
       formName = "HotelForm";
       break;
     case "Holiday":
       formName = "HolidayForm";
       break;
+    case "HolidayF":
+      formName = "HolidayForm";
+      break;
     default:
       break;
   }
   return async (dispatch, getState) => {
+    
     try {
       const values = getState().form[formName].values;
+      console.log(values)
+      if (quoteType === 'HolidayF') {
+        values.destination = destination
+      }
       const data = { type: quoteType, ...values, user, client_comments };
       let response = await LocalApi.post("/quotes", data);
       dispatch({
         type: QUOTE,
         payload: response.data,
       });
-      dispatch({
-        type: SET_SNACKBAR_SETTINGS,
-        payload: {
-          open: true,
-          variant: "success",
-          message: `Thank you for your request. An email has been sent to your account.`,
-        },
-      });
+      console.log('Quote Request Successful!')
+      // dispatch({
+      //   type: SET_SNACKBAR_SETTINGS,
+      //   payload: {
+      //     open: true,
+      //     variant: "success",
+      //     message: `Thank you for your request. An email has been sent to your account.`,
+      //   },
+      // });
     } catch (err) {
       handleServerError(err, dispatch);
     }
   };
 };
 
-export const updateQuoteRequest = ({ _id, ...quoteDetails }) => {
+export const updateQuoteRequest = (_id, {...quoteDetails }) => {
   delete quoteDetails.user._id;
   delete quoteDetails.__v;
   delete quoteDetails.createdAt;
@@ -74,15 +80,7 @@ export const updateQuoteRequest = ({ _id, ...quoteDetails }) => {
         },
       });
     } catch (err) {
-      // handleServerError(err, dispatch);
-      dispatch({
-        type: SET_SNACKBAR_SETTINGS,
-        payload: {
-          open: true,
-          variant: "success",
-          message: `Succesfully updated`,
-        },
-      });
+      handleServerError(err, dispatch);
     }
   };
 };
