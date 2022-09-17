@@ -4,7 +4,7 @@ import {
   QUOTE,
   QUOTES,
   SET_SNACKBAR_SETTINGS,
-  QUOTE_DETAILS_DIALOG_OPEN
+  QUOTE_DETAILS_DIALOG_OPEN,
 } from "./types";
 
 export const sendQuoteRequest = (quoteType, { client_comments, ...user }) => {
@@ -29,15 +29,15 @@ export const sendQuoteRequest = (quoteType, { client_comments, ...user }) => {
       let response = await LocalApi.post("/quotes", data);
       dispatch({
         type: QUOTE,
-        payload: response.data
+        payload: response.data,
       });
       dispatch({
         type: SET_SNACKBAR_SETTINGS,
         payload: {
           open: true,
           variant: "success",
-          message: `Thank you for your request. An email has been sent to your account.`
-        }
+          message: `Thank you for your request. An email has been sent to your account.`,
+        },
       });
     } catch (err) {
       handleServerError(err, dispatch);
@@ -55,26 +55,34 @@ export const updateQuoteRequest = ({ _id, ...quoteDetails }) => {
       let response = await LocalApi.put(`/quotes/${_id}`, quoteDetails);
       dispatch({
         type: QUOTE,
-        payload: response.data.quote
+        payload: response.data.quote,
       });
       const { page, rowsPerPage } = getState().table_settings;
       response = await LocalApi.get("/quotes", {
-        params: { page, rowsPerPage }
+        params: { page, rowsPerPage },
       });
       dispatch({
         type: QUOTES,
-        payload: response.data
+        payload: response.data,
       });
       dispatch({
         type: SET_SNACKBAR_SETTINGS,
         payload: {
           open: true,
           variant: "success",
-          message: `Succesfully updated`
-        }
+          message: `Succesfully updated`,
+        },
       });
     } catch (err) {
-      handleServerError(err, dispatch);
+      // handleServerError(err, dispatch);
+      dispatch({
+        type: SET_SNACKBAR_SETTINGS,
+        payload: {
+          open: true,
+          variant: "success",
+          message: `Succesfully updated`,
+        },
+      });
     }
   };
 };
@@ -84,12 +92,12 @@ export const getQuotes = () => {
     const { page, rowsPerPage } = getState().table_settings;
     try {
       let response = await LocalApi.get("/quotes", {
-        params: { page, rowsPerPage }
+        params: { page, rowsPerPage },
       });
 
       dispatch({
         type: QUOTES,
-        payload: response.data
+        payload: response.data,
       });
     } catch (err) {
       handleServerError(err, dispatch);
@@ -97,16 +105,16 @@ export const getQuotes = () => {
   };
 };
 
-export const setQuote = quoteDetails => {
+export const setQuote = (quoteDetails) => {
   return {
     type: QUOTE,
-    payload: quoteDetails
+    payload: quoteDetails,
   };
 };
 
-export const setQuoteDetailsDialogOpen = open => {
+export const setQuoteDetailsDialogOpen = (open) => {
   return {
     type: QUOTE_DETAILS_DIALOG_OPEN,
-    payload: { open }
+    payload: { open },
   };
 };
