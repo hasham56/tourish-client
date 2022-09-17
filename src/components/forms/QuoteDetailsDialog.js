@@ -22,7 +22,7 @@ class QuoteDetailsDialog extends Component {
     this.props.reset();
   };
 
-  onDialogSubmit = formValues => {
+  onDialogSubmit = (formValues) => {
     const { setQuoteDetailsDialogOpen, updateQuoteRequest } = this.props;
     setQuoteDetailsDialogOpen(false);
     updateQuoteRequest(formValues);
@@ -54,7 +54,7 @@ class QuoteDetailsDialog extends Component {
                     component={ReduxTextField}
                     margin="dense"
                     InputProps={{
-                      readOnly: admin
+                      readOnly: admin,
                     }}
                   />
                 </Grid>
@@ -66,7 +66,7 @@ class QuoteDetailsDialog extends Component {
                     component={ReduxTextField}
                     margin="dense"
                     InputProps={{
-                      readOnly: admin
+                      readOnly: admin,
                     }}
                   />
                 </Grid>
@@ -78,7 +78,7 @@ class QuoteDetailsDialog extends Component {
                     component={ReduxTextField}
                     margin="dense"
                     InputProps={{
-                      readOnly: admin
+                      readOnly: admin,
                     }}
                   />
                 </Grid>
@@ -90,7 +90,7 @@ class QuoteDetailsDialog extends Component {
                     component={ReduxTextField}
                     margin="dense"
                     InputProps={{
-                      readOnly: admin
+                      readOnly: admin,
                     }}
                   />
                 </Grid>
@@ -138,7 +138,7 @@ class QuoteDetailsDialog extends Component {
                     component={ReduxTextField}
                     margin="dense"
                     InputProps={{
-                      readOnly: admin
+                      readOnly: admin,
                     }}
                   />
                 </Grid>
@@ -151,7 +151,7 @@ class QuoteDetailsDialog extends Component {
                       component={ReduxTextField}
                       margin="dense"
                       InputProps={{
-                        readOnly: admin
+                        readOnly: admin,
                       }}
                     />
                   </Grid>
@@ -166,7 +166,7 @@ class QuoteDetailsDialog extends Component {
                         component={ReduxTextField}
                         margin="dense"
                         InputProps={{
-                          readOnly: admin
+                          readOnly: admin,
                         }}
                       />
                     </Grid>
@@ -177,7 +177,7 @@ class QuoteDetailsDialog extends Component {
                         label="Ticket Type"
                         selectOptions={[
                           { value: "return", label: "Return" },
-                          { value: "one_way", label: "One-Way" }
+                          { value: "one_way", label: "One-Way" },
                         ]}
                       />
                     </Grid>
@@ -190,10 +190,10 @@ class QuoteDetailsDialog extends Component {
                           { value: "economy", label: "Economy" },
                           {
                             value: "premium economy",
-                            label: "Premium Economy"
+                            label: "Premium Economy",
                           },
                           { value: "business", label: "Business" },
-                          { value: "first class", label: "First Class" }
+                          { value: "first class", label: "First Class" },
                         ]}
                         margin="dense"
                       />
@@ -232,7 +232,7 @@ class QuoteDetailsDialog extends Component {
                         selectOptions={[
                           { value: "affordable", label: "Affordable" },
                           { value: "premium", label: "Premium" },
-                          { value: "luxury", label: "Luxury" }
+                          { value: "luxury", label: "Luxury" },
                         ]}
                         margin="dense"
                       />
@@ -255,7 +255,7 @@ class QuoteDetailsDialog extends Component {
                     component={ReduxTextField}
                     margin="dense"
                     InputProps={{
-                      readOnly: admin
+                      readOnly: admin,
                     }}
                     multiline
                   />
@@ -282,7 +282,7 @@ class QuoteDetailsDialog extends Component {
                           { value: "researching", label: "Researching" },
                           { value: "pending", label: "Pending" },
                           { value: "finalized", label: "Finalized" },
-                          { value: "declined", label: "Declined" }
+                          { value: "declined", label: "Declined" },
                         ]}
                         margin="dense"
                       />
@@ -314,17 +314,17 @@ class QuoteDetailsDialog extends Component {
 const WrappedQuoteDetailsDialog = reduxForm({
   form: "QuoteDetailsDialog",
   enableReinitialize: true,
-  validate
+  validate,
 })(QuoteDetailsDialog);
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { start_date, end_date, ...initialValues } = state.quote;
   initialValues.start_date = moment(start_date).format("YYYY-MM-DD");
   initialValues.end_date = moment(end_date).format("YYYY-MM-DD");
   return {
     dialogOpen: state.dialog.quoteDetailsDialog.open,
     quote: state.quote,
-    initialValues
+    initialValues,
   };
 };
 
