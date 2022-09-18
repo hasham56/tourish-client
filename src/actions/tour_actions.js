@@ -6,7 +6,6 @@ export const getTours = (params = {}) => {
   return async (dispatch, getState) => {
     try {
       let response = await LocalApi.get("/tours", { params });
-
       dispatch({
         type: TOURS,
         payload: response.data

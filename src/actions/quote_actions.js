@@ -26,7 +26,6 @@ export const sendQuoteRequest = (quoteType, { client_comments, ...user }, destin
     
     try {
       const values = getState().form[formName].values;
-      console.log(values)
       if (quoteType === 'HolidayF') {
         values.destination = destination
       }
@@ -37,14 +36,16 @@ export const sendQuoteRequest = (quoteType, { client_comments, ...user }, destin
         payload: response.data,
       });
       console.log('Quote Request Successful!')
-      // dispatch({
-      //   type: SET_SNACKBAR_SETTINGS,
-      //   payload: {
-      //     open: true,
-      //     variant: "success",
-      //     message: `Thank you for your request. An email has been sent to your account.`,
-      //   },
-      // });
+      if (quoteType !== 'HolidayF') {
+        dispatch({
+          type: SET_SNACKBAR_SETTINGS,
+          payload: {
+            open: true,
+            variant: "success",
+            message: `Thank you for your request. An email has been sent to your account.`,
+          },
+        });
+      }
     } catch (err) {
       handleServerError(err, dispatch);
     }

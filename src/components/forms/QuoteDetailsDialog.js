@@ -26,11 +26,13 @@ class QuoteDetailsDialog extends Component {
     const { setQuoteDetailsDialogOpen, updateQuoteRequest, sendQuoteRequest, tourId, match } = this.props;
     setQuoteDetailsDialogOpen(false);
     const admin = match.path === "/admin/quotes";
-    admin ? updateQuoteRequest(tourId, formValues) : sendQuoteRequest("HolidayF", {
+    admin ? updateQuoteRequest(tourId, formValues) :
+     sendQuoteRequest("HolidayF", {
       client_comments: formValues.client_comments, 
       ...formValues.user
     }, formValues.destination);
-    this.props.history.push('/payment', { email: formValues.user.email})
+
+    this.props.history.push('/payment', { email: formValues.user.email, budget: formValues.budget })
   };
 
   render() {
