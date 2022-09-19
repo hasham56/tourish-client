@@ -18,11 +18,11 @@ class PersonalInfoDialog extends Component {
     this.props.reset();
   };
 
-  onSubmit = personalDetails => {
+  onSubmit = (personalDetails) => {
     const {
       quoteType,
       setPersonalInfoDialogOpen,
-      sendQuoteRequest
+      sendQuoteRequest,
     } = this.props;
     setPersonalInfoDialogOpen(false);
     sendQuoteRequest(quoteType, personalDetails);
@@ -96,13 +96,13 @@ class PersonalInfoDialog extends Component {
 }
 
 const WrappedPersonalInfoDialog = reduxForm({
-  form: "PersonalInfoDialog",
-  validate
+  form: "HolidayForm",
+  validate,
 })(PersonalInfoDialog);
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    dialogOpen: state.dialog.personalInfoDialog.open
+    dialogOpen: state.dialog.personalInfoDialog.open,
   };
 };
 

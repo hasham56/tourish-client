@@ -11,10 +11,14 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { Grid } from "@material-ui/core";
 import ReduxTextField from "./fields/ReduxTextField";
 import ReduxSelectField from "./fields/ReduxSelectField";
-// import ReduxCheckbox from "./fields/ReduxCheckbox";
+import ReduxCheckbox from "./fields/ReduxCheckbox";
 import validate from "./validation/quote_dialog_validation";
 import { createSelectNumberRange } from "./../../helpers//input_helpers";
-import { setQuoteDetailsDialogOpen, updateQuoteRequest, sendQuoteRequest } from "./../../actions";
+import {
+  setQuoteDetailsDialogOpen,
+  updateQuoteRequest,
+  sendQuoteRequest,
+} from "./../../actions";
 
 class QuoteDetailsDialog extends Component {
   onClose = () => {
@@ -23,16 +27,26 @@ class QuoteDetailsDialog extends Component {
   };
 
   onDialogSubmit = (formValues) => {
-    const { setQuoteDetailsDialogOpen, updateQuoteRequest, sendQuoteRequest, tourId, match } = this.props;
+    const {
+      setQuoteDetailsDialogOpen,
+      updateQuoteRequest,
+      sendQuoteRequest,
+      tourId,
+      match,
+    } = this.props;
     setQuoteDetailsDialogOpen(false);
     const admin = match.path === "/admin/quotes";
-    admin ? updateQuoteRequest(tourId, formValues) :
-     sendQuoteRequest("HolidayF", {
-      client_comments: formValues.client_comments, 
-      ...formValues.user
-    }, formValues.destination);
+    admin
+      ? updateQuoteRequest(tourId, formValues)
+      : sendQuoteRequest("HolidayF", {
+          client_comments: formValues.client_comments,
+          ...formValues.user,
+        });
 
-    this.props.history.push('/payment', { email: formValues.user.email, budget: formValues.budget })
+    this.props.history.push("/payment", {
+      email: formValues.user.email,
+      budget: formValues.budget,
+    });
   };
 
   render() {
@@ -101,7 +115,12 @@ class QuoteDetailsDialog extends Component {
                     }}
                   />
                 </Grid>
-                {/* <Grid item xs={12} sm={6} style={{ padding: "0 16px", display: 'none' }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  style={{ padding: "0 16px", display: "none" }}
+                >
                   <Field
                     type="date"
                     name="start_date"
@@ -110,7 +129,12 @@ class QuoteDetailsDialog extends Component {
                     margin="dense"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} style={{ padding: "0 16px", display: 'none' }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  style={{ padding: "0 16px", display: "none" }}
+                >
                   <Field
                     type="date"
                     name="end_date"
@@ -118,7 +142,7 @@ class QuoteDetailsDialog extends Component {
                     component={ReduxTextField}
                     margin="dense"
                   />
-                </Grid> */}
+                </Grid>
                 <Grid item xs={12} sm={6} style={{ padding: "0 16px" }}>
                   <Field
                     name="adults"
@@ -246,14 +270,19 @@ class QuoteDetailsDialog extends Component {
                     </Grid>
                   </>
                 )}
-                {/* <Grid item xs={12} sm={6} style={{ padding: "0 16px" }}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  style={{ padding: "0 16px", display: "none" }}
+                >
                   <Field
                     name="flexible_dates"
                     label="My dates are flexible"
                     component={ReduxCheckbox}
                     margin="dense"
                   />
-                </Grid> */}
+                </Grid>
                 <Grid item xs={12} style={{ padding: "0 16px" }}>
                   <Field
                     type="text"
@@ -319,7 +348,7 @@ class QuoteDetailsDialog extends Component {
 }
 
 const WrappedQuoteDetailsDialog = reduxForm({
-  form: "QuoteDetailsDialog",
+  form: "HolidayFForm",
   enableReinitialize: true,
   validate,
 })(QuoteDetailsDialog);
@@ -332,7 +361,7 @@ const mapStateToProps = (state) => {
     dialogOpen: state.dialog.quoteDetailsDialog.open,
     quote: state.quote,
     initialValues,
-    tourId: state.tour._id
+    tourId: state.tour._id,
   };
 };
 

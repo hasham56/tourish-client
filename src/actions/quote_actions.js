@@ -7,7 +7,7 @@ import {
   QUOTE_DETAILS_DIALOG_OPEN,
 } from "./types";
 
-export const sendQuoteRequest = (quoteType, { client_comments, ...user }, destination=null) => {
+export const sendQuoteRequest = (quoteType, { client_comments, ...user }) => {
   let formName = "";
   switch (quoteType) {
     case "Hotel":
@@ -17,17 +17,17 @@ export const sendQuoteRequest = (quoteType, { client_comments, ...user }, destin
       formName = "HolidayForm";
       break;
     case "HolidayF":
-      formName = "HolidayForm";
+      formName = "HolidayFForm";
       break;
     default:
       break;
   }
   return async (dispatch, getState) => {
-    
+    debugger;
     try {
       const values = getState().form[formName].values;
-      if (quoteType === 'HolidayF') {
-        values.destination = destination
+      if (quoteType === "HolidayF") {
+        values.flexible_dates = true;
       }
       const data = { type: quoteType, ...values, user, client_comments };
       let response = await LocalApi.post("/quotes", data);
@@ -35,8 +35,8 @@ export const sendQuoteRequest = (quoteType, { client_comments, ...user }, destin
         type: QUOTE,
         payload: response.data,
       });
-      console.log('Quote Request Successful!')
-      if (quoteType !== 'HolidayF') {
+      console.log("Quote Request Successful!");
+      if (quoteType !== "HolidayF") {
         dispatch({
           type: SET_SNACKBAR_SETTINGS,
           payload: {
@@ -52,7 +52,7 @@ export const sendQuoteRequest = (quoteType, { client_comments, ...user }, destin
   };
 };
 
-export const updateQuoteRequest = (_id, {...quoteDetails }) => {
+export const updateQuoteRequest = (_id, { ...quoteDetails }) => {
   delete quoteDetails.user._id;
   delete quoteDetails.__v;
   delete quoteDetails.createdAt;
